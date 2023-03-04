@@ -36,10 +36,10 @@ class MainActivity : AppCompatActivity() {
                     var showBox by remember { mutableStateOf(false) }
                     var showDialog by remember { mutableStateOf(false) }
                     Button(onClick = { showBox = true }) {
-                        Text(text = "Show fragment in box (works several times)")
+                        Text(text = "Show fragment in box (back pressed works here)")
                     }
                     Button(onClick = { showDialog = true }) {
-                        Text(text = "Show fragment in dialog (only works once)")
+                        Text(text = "Show fragment in dialog (back pressed does not work)")
                     }
                     if (showBox) {
                         Box {
