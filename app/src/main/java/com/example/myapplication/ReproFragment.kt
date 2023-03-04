@@ -47,21 +47,6 @@ class ReproFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = ReproFragmentBinding.bind(view)
 
-//        binding.composeView.setContent {
-//            MyApplicationTheme {
-//                Box(
-//                    modifier = Modifier.fillMaxSize(),
-//                ) {
-//                    Text(
-//                        "Text in nested compose world (inside fragment)\nNo back handler here",
-//                        modifier = Modifier.align(Alignment.Center)
-//                    )
-//                }
-//            }
-//        }
-//        binding.toggleComposeButton.setOnClickListener {
-//            binding.composeView.isVisible = !binding.composeView.isVisible
-//        }
         updateText()
     }
 
