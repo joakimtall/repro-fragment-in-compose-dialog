@@ -33,44 +33,15 @@ class MainActivity : AppCompatActivity() {
                         .background(MaterialTheme.colors.background),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    var showBox by remember { mutableStateOf(false) }
-                    var showDialog by remember { mutableStateOf(false) }
-                    Button(onClick = { showBox = true }) {
-                        Text(text = "Show fragment in box (back pressed works here)")
-                    }
-                    Button(onClick = { showDialog = true }) {
-                        Text(text = "Show fragment in dialog (back pressed does not work)")
-                    }
-                    if (showBox) {
-                        Box {
-                            Column(
-                                modifier = Modifier
-                                    .background(Color.Gray)
-                            ) {
-                                Button(onClick = { showBox = false }) {
-                                    Text(text = "Close")
-                                }
-                                AndroidViewBinding(
-                                    factory = FragmentContainerBinding::inflate,
-                                    modifier = Modifier.size(300.dp, 150.dp),
-                                )
-                            }
-                        }
-                    }
-                    if (showDialog) {
-                        Dialog(onDismissRequest = {}) {
-                            Column(
-                                modifier = Modifier.background(Color.Gray),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                Button(onClick = { showDialog = false }) {
-                                    Text(text = "Close")
-                                }
-                                AndroidViewBinding(
-                                    factory = FragmentContainerBinding::inflate,
-                                    modifier = Modifier.size(300.dp, 150.dp),
-                                )
-                            }
+                    Box {
+                        Column(
+                            modifier = Modifier
+                                .background(Color.Gray)
+                        ) {
+                            AndroidViewBinding(
+                                factory = FragmentContainerBinding::inflate,
+                                modifier = Modifier.size(300.dp, 150.dp),
+                            )
                         }
                     }
                 }

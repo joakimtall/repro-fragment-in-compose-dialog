@@ -17,6 +17,7 @@ class ReproFragment : Fragment() {
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 count += 1
+                ReproDialogFragment().show(childFragmentManager, "tag")
                 updateText()
             }
         })
