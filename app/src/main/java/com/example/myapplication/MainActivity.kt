@@ -8,13 +8,12 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.example.myapplication.databinding.FragmentContainerBinding
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -36,21 +35,9 @@ class MainActivity : AppCompatActivity() {
             MyApplicationTheme {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Column(modifier = Modifier.fillMaxWidth().weight(0.5f).background(Color.White)) {
-                        var onBackPressedChainClassNames by remember { mutableStateOf("") }
-                        Text("""
-                            In compose world (outside fragment)
-                            Back pressed count: $count
-                            
-                            mOnBackPressedCallbacks:
-                            
-                            """.trimIndent() + onBackPressedChainClassNames)
-                        val backPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
-                        LaunchedEffect(Unit) {
-                            while (isActive) {
-                                onBackPressedChainClassNames = getBackPressedChainClassNames(backPressedDispatcherOwner)
-                                delay(200)
-                            }
-                        }
+                        Text("In compose world (outside fragment)\nBack pressed count: $count")
+                        Spacer(modifier = Modifier.height(20.dp))
+                        BackPressedChainClassNames()
                     }
                     AndroidViewBinding(
                         factory = FragmentContainerBinding::inflate,
@@ -61,17 +48,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBackPressedChainClassNames(backPressedDispatcherOwner: OnBackPressedDispatcherOwner?) =
-        backPressedDispatcherOwner?.let { owner ->
-            owner.onBackPressedDispatcher.getPrivateProperty<OnBackPressedDispatcher, ArrayDeque<*>>(
-                "mOnBackPressedCallbacks"
-            )?.let { backPressedCallbacks ->
-                backPressedCallbacks.joinToString("\n") {
-                    it::class.jvmName
-                }
+    @Composable
+    private fun BackPressedChainClassNames() {
+        var onBackPressedChainClassNames by remember { mutableStateOf("") }
+        Text("mOnBackPressedCallbacks:\n$onBackPressedChainClassNames")
+        val backPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
+        LaunchedEffect(Unit) {
+            while (isActive) {
+                onBackPressedChainClassNames = getBackPressedChainClassNames(backPressedDispatcherOwner)
+                delay(200)
             }
-        } ?: "got null"
+        }
+    }
 }
+
+private fun getBackPressedChainClassNames(backPressedDispatcherOwner: OnBackPressedDispatcherOwner?) =
+    backPressedDispatcherOwner?.let { owner ->
+        owner.onBackPressedDispatcher.getPrivateProperty<OnBackPressedDispatcher, ArrayDeque<*>>(
+            "mOnBackPressedCallbacks"
+        )?.let { backPressedCallbacks ->
+            backPressedCallbacks.joinToString("\n") {
+                it::class.jvmName
+            }
+        }
+    } ?: "got null"
 
 inline fun <reified T : Any, R> T.getPrivateProperty(name: String): R? =
     T::class
