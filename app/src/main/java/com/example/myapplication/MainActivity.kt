@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,24 +27,45 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colors.background)
+                        .background(MaterialTheme.colors.background),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+                    var showBox by remember { mutableStateOf(false) }
                     var showDialog by remember { mutableStateOf(false) }
-                    Button(onClick = { showDialog = true }) {
-                        Text(text = "Show dialog")
+                    Button(onClick = { showBox = true }) {
+                        Text(text = "Show fragment in box (works several times)")
                     }
-                    if (showDialog) {
-                        Dialog(onDismissRequest = { showDialog = false }) {
+                    Button(onClick = { showDialog = true }) {
+                        Text(text = "Show fragment in dialog (only works once)")
+                    }
+                    if (showBox) {
+                        Box {
                             Column(
                                 modifier = Modifier
-                                    .size(300.dp, 300.dp)
-                                    .background(Color.White)
+                                    .background(Color.Gray)
                             ) {
-                                Text(text = "Dialog", modifier = Modifier.size(300.dp, 150.dp))
+                                Button(onClick = { showBox = false }) {
+                                    Text(text = "Close")
+                                }
+                                AndroidViewBinding(
+                                    factory = FragmentContainerBinding::inflate,
+                                    modifier = Modifier.size(300.dp, 150.dp),
+                                )
+                            }
+                        }
+                    }
+                    if (showDialog) {
+                        Dialog(onDismissRequest = {}) {
+                            Column(
+                                modifier = Modifier.background(Color.Gray),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Button(onClick = { showDialog = false }) {
+                                    Text(text = "Close")
+                                }
                                 AndroidViewBinding(
                                     factory = FragmentContainerBinding::inflate,
                                     modifier = Modifier.size(300.dp, 150.dp),
