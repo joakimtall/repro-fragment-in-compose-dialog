@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Column(modifier = Modifier.fillMaxWidth().weight(0.3f).background(Color.White)) {
                         var count by remember { mutableStateOf(0) }
-                        var backHandlerActive by remember { mutableStateOf(false) }
+                        var backHandlerActive by remember { mutableStateOf(true) }
                         BackHandler(backHandlerActive) {
                             count += 1
                         }

@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.core.view.isVisible
 import com.example.myapplication.databinding.FragmentContainerBinding
 import com.example.myapplication.databinding.ReproFragmentBinding
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -46,18 +47,21 @@ class ReproFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = ReproFragmentBinding.bind(view)
 
-        binding.composeView.setContent {
-            MyApplicationTheme {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    Text(
-                        "Text in nested compose world (inside fragment)\nNo back handler here",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-        }
+//        binding.composeView.setContent {
+//            MyApplicationTheme {
+//                Box(
+//                    modifier = Modifier.fillMaxSize(),
+//                ) {
+//                    Text(
+//                        "Text in nested compose world (inside fragment)\nNo back handler here",
+//                        modifier = Modifier.align(Alignment.Center)
+//                    )
+//                }
+//            }
+//        }
+//        binding.toggleComposeButton.setOnClickListener {
+//            binding.composeView.isVisible = !binding.composeView.isVisible
+//        }
         updateText()
     }
 

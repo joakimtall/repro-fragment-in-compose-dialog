@@ -6,15 +6,22 @@
     android:background="@color/purple_500"
     tools:context=".ReproFragment">
 
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/composeView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    <androidx.compose.ui.platform.ComposeView-->
+<!--        android:id="@+id/composeView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:text="Text in fragment world" />
+
+    <Button
+        android:id="@+id/toggleComposeButton"
+        android:layout_marginTop="100dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Toggle nested compose view"/>
 
 </FrameLayout>
