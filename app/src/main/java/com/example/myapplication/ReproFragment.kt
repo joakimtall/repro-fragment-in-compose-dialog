@@ -6,7 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidViewBinding
+import com.example.myapplication.databinding.FragmentContainerBinding
 import com.example.myapplication.databinding.ReproFragmentBinding
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class ReproFragment : Fragment() {
     private lateinit var binding: ReproFragmentBinding
@@ -17,7 +32,6 @@ class ReproFragment : Fragment() {
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 count += 1
-                ReproDialogFragment().show(childFragmentManager, "tag")
                 updateText()
             }
         })
@@ -31,10 +45,23 @@ class ReproFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ReproFragmentBinding.bind(view)
+
+        binding.composeView.setContent {
+            MyApplicationTheme {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    Text(
+                        "Text in nested compose world (inside fragment)\nNo back handler here",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+        }
         updateText()
     }
 
     private fun updateText() {
-        binding.textView.text = "BACK PRESSED COUNT: $count"
+        binding.textView.text = "In fragment world\nBack pressed count: $count"
     }
 }
